@@ -67,7 +67,7 @@ class TemplateDicDAO extends Configuration {
           params.keyword.map(k => tmp.keyword like s"%$k%"),
           params.category.map(c => tmp.category like s"%$c%"),
           params.action.map(tmp.action === _),
-          params.errata.map(tmp.errata === _)
+          params.feelings.map(tmp.feelings === _)
         ).flatten match {
           case Nil => tmp.template === tmp.template
           case seq => seq.reduce(_ || _)

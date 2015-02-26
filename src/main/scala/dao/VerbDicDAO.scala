@@ -8,21 +8,6 @@ import domain.{NounDic, VerbDic, VerbDicTag, VerbSearchParams}
 
 import scala.slick.driver.MySQLDriver.simple._
 
-object VerbDicDAO {
-
-  val dao = new VerbDicDAO
-
-  def checkOverlap(tokens: List[AnalyzedToken]): Boolean = {
-    dao.search(VerbDicTag.SEARCH_ALL_PARAM) match {
-      case Right(list) =>
-        val baseForms = list.map(_.base_form)
-        tokens.map(t => !baseForms.contains(t.baseForm)).reduce(_ && _)
-      case Left(e) => false
-    }
-  }
-
-}
-
 class VerbDicDAO extends Configuration {
 
   val db = Database.forURL(url = s"jdbc:mysql://$dbHost:$dbPort/$dbName", user = dbUser, password = dbPassword, driver = "com.mysql.jdbc.Driver")

@@ -26,7 +26,8 @@ object Talk {
         println(s"result = $str")
         val action = candidates.filter(_.template == str).head.action
         val category = candidates.filter(_.template == str).head.category
-        Right(Map("template" -> str, "action" -> action.toString, "category" -> category))
+        val feelings = candidates.filter(_.template == str).head.feelings
+        Right(Map("template" -> str, "action" -> action.toString, "category" -> category, "feelings" -> feelings.toString))
 
       case None =>
         Left(Failure("すみません。うまく聞き取れませんでした。もう一度お願いします", FailureType.InternalError))
@@ -48,7 +49,8 @@ object Talk {
         println(s"result = $str")
         val action = templates.filter(_.template == str).head.action
         val category = templates.filter(_.template == str).head.category
-        Right(Map("template" -> str, "action" -> action.toString, "category" -> category))
+        val feelings = templates.filter(_.template == str).head.feelings
+        Right(Map("template" -> str, "action" -> action.toString, "category" -> category, "feelings" -> feelings.toString))
 
       case None =>
         Left(Failure("すみません。うまく聞き取れませんでした。", FailureType.InternalError))

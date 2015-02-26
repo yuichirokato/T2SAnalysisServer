@@ -2,9 +2,9 @@ package domain
 
 import scala.slick.driver.MySQLDriver.simple._
 
-case class TemplateDic(id: Option[Long], template: String, keyword: String, category: String, action: Int, errata: String)
+case class TemplateDic(id: Option[Long], template: String, keyword: String, category: String, action: Int, feelings: Int)
 
-case class TemplateSearchParams(template: Option[String], keyword: Option[String], category: Option[String], action: Option[Int], errata: Option[String])
+case class TemplateSearchParams(template: Option[String], keyword: Option[String], category: Option[String], action: Option[Int], feelings: Option[Int])
 
 object TemplateDicTag extends TableQuery(new TemplateDicTag(_)) {
   val SEARCH_ALL_PARAM = new TemplateSearchParams(None, None, None, None, None)
@@ -19,8 +19,8 @@ class TemplateDicTag(tag: Tag) extends Table[TemplateDic](tag, "template_dic") {
   def keyword = column[String]("keyword", O.NotNull)
   def category = column[String]("category", O.NotNull)
   def action = column[Int]("action", O.NotNull)
-  def errata = column[String]("errata", O.NotNull)
+  def feelings = column[Int]("feelings", O.NotNull)
 
-  def * = (id.?, template, keyword, category, action, errata) <> (TemplateDic.tupled, TemplateDic.unapply)
+  def * = (id.?, template, keyword, category, action, feelings) <> (TemplateDic.tupled, TemplateDic.unapply)
 
 }
