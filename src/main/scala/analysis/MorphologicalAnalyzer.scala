@@ -1,7 +1,10 @@
 package analysis
 
+import cabocha.Cabocha
+import enums.PosDiv
 import org.atilika.kuromoji.{Token, Tokenizer}
 import implicits.Conversions._
+import utils.CabochaUtils
 
 import scala.collection.JavaConversions._
 
@@ -12,15 +15,27 @@ object MorphologicalAnalyzer {
   val POS_NOUN = "名詞"
   val POS_PRONOUN = "代名詞"
   val POS_VERB = "動詞"
+  val CABOCHA_PATH = "/usr/local/bin/cabocha"
 
   def analize(word: String): List[String] = {
     println(s"word = $word")
-    val tokenizer = Tokenizer.builder.mode(Tokenizer.Mode.NORMAL).build
+    val cabocha = Cabocha(CABOCHA_PATH)
+    val sentence = cabocha.executeAnalyzeAsFormatXML(word).get
+    val result = for {
+      chunk <- CabochaUtils.chainPos(sentence.chunks, List(PosDiv.NOUN))
+      token <- chunk.tokens
+    } yield token.base
 
-    val tokens = tokenizer.tokenize(word).toList
+    result.foreach(println)
 
-    tokens.foreach(t => println(s"surface = ${t.getSurfaceForm}"))
-    tokens.map(_.getSurfaceForm)
+    result
+
+//    val tokenizer = Tokenizer.builder.mode(Tokenizer.Mode.NORMAL).build
+//
+//    val tokens = tokenizer.tokenize(word).toList
+//
+//    tokens.foreach(t => println(s"surface = ${t.getSurfaceForm}"))
+//    tokens.map(_.getSurfaceForm)
 
 //    val nouns = tokens.filter(nounFilter).map(createAnalyzedToken)
 //

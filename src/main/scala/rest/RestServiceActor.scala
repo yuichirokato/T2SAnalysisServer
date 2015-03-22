@@ -44,9 +44,10 @@ trait RestService extends HttpService {
         parameters('text.as[String], 'action_design.as[String]) { (analyzeText, ad) =>
           ctx: RequestContext => {
             handleRequest(ctx) {
-              println(s"encodtext = $analyzeText")
+              println(s"encode text = $analyzeText")
               val decodeText = URLDecoder.decode(analyzeText, "UTF-8")
               val words = MorphologicalAnalyzer.analize(decodeText)
+              
 
               ad match {
                 case "default" => Talk.getTemplate(words)

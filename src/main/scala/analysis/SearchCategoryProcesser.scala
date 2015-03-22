@@ -1,0 +1,8 @@
+package analysis
+
+object SearchCategoryProcesser {
+
+
+
+
+}
